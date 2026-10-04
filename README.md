@@ -7,7 +7,8 @@ Create the environment for a given lab:
     conda env create -f PW<n>/Lab <X>/environment.yml
     conda activate cspc
 
----
+
+
 
 ## PW1 - Lab A: REproducible Foundations
 
@@ -40,3 +41,48 @@ Create the environment for a given lab:
 **Conclussion:**
 -The observed data matches the analytical decay law well, confirming the process follows simple exponential decay wuth lambda = 0.3
 - learned how Snakemake avoids unnecessary reruns bytracking input/output timestamps, keeps a multistep pipeline consistent with a single command
+
+## PW2 - Lab A: from noisy position to velocity and acceleration
+
+**What I build:**
+- Starting from noisy height measurements of falling object , I calculated its velocityand acceleration, then added the nois acceleration back up to see if I could rebuild the original height
+
+**What I measured:**
+-average acceleration: -8.5797m/s^2
+-standart deviation: 28.716m/s^2
+-largest difference: 0.63975 m
+
+**Why acceleration came out so noisy:** 
+The height data looked fairly smooth, but acceleration is calculated by comparing difference between nearby points - and doing that twice in a row(once for velocity, again for acceleration) makes any small error in the original measuremenets get bigger each time. So even though position data looked clean accceleration ended up jumping around a lot
+
+**what happened when I added everything back up:**
+When I summed the noisy acceleration values back up to get velocity, then position again, result ended up very close to the original height data(largest difference 0.639m) This makes sense because adding numbers together tend to cancel out random noise , so errors are a bit too high, some a bit too low and they average each other out. So going backwards(integration) actually cleaned the noise up while going forward made it worse 
+**Conclussion:**
+-This lab showed that these operations behave in opposite ways with noisy data: comparing differences(differentiating) makes noise worse while adding values up (integrating) makes it better even with the exact same noisy numbers. Acceleration I measured still matched graviy`s real value 
+
+## PW2 - Lab B: Optimisation in Chemistry
+
+**What i build**
+Compared gradient descent, Newton's method and SLSQP, then used optimisation for reaction rate, chemical equilibrium and titration.
+
+**Part 2 - Optimisation methods:**
+For f(x), all three methods reached x = 3(approximately)
+For g(x), the result depended on the starting point. Newton's method could reach another stationary point, while gradient descent and SLSQP reached local minima. Smaller learning rates made gradient descent slower.
+
+**Part 3 - Reaction rate:**
+Fitted the first-order reaction model to the measured data using SLSQP. Fitted rate constant: k = 0.25(approximately)
+
+**Part 4 - Chemical equilibrium:**
+Used Newton's method and SLSQP to find the equilibrium extent. Both methods gave x = 0.60(approximately)
+Equilibrium amounts:
+    H2 = 0.39 mol
+    I2 = 0.39 mol
+    HI = 1.21 mol
+
+**Part 5 - Titration(bonus):**
+Used the pH slope to find the equivalence point.
+Equivalence point: 50 ml
+
+**Counclusion:**
+This lab showed how different optimisation methods can be used for both mathematical functions and real chemistry problems. The starting point and learning rate can affect the optimisation result.
+
